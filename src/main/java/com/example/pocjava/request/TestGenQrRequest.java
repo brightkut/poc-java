@@ -1,13 +1,10 @@
 package com.example.pocjava.request;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
 public class TestGenQrRequest {
     private String qrString;
-
-    public String getQrString() {
-        return qrString;
-    }
-
-    public void setQrString(String qrString) {
-        this.qrString = qrString;
-    }
 }
