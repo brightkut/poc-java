@@ -1,20 +1,49 @@
 package com.example.pocjava.services;
 
+import com.example.pocjava.request.GetCacheRequest;
+import com.example.pocjava.request.PostCacheRequest;
 import com.example.pocjava.request.TestGenQrRequest;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PocService {
+    @Autowired
+    private CacheManager cacheManager;
 
     public String testQr(TestGenQrRequest qrString) throws Exception {
         return generateQRCodeImage(qrString.getQrString());
+    }
+
+
+    // value กับ cacheNames คือ set config cache name เหมือนกัน
+    // key คือ ค่า key ที่เก็บ
+    //
+    @Cacheable( value = "test", key = "#request.key")
+    public String testCache(PostCacheRequest request){
+        return request.getData();
+    }
+
+    public String getCache(GetCacheRequest request){
+        System.out.println(cacheManager.getCache(request.getCacheName()));
+        return cacheManager.getCache(request.getCacheName()).get(request.getKey()).get().toString();
+    }
+
+    public List<String> getAllCacheName(){
+        return new ArrayList<>(cacheManager.getCacheNames());
     }
 
     public static String generateQRCodeImage(String barcodeText) throws Exception {
