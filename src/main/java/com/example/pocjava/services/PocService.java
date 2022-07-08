@@ -31,10 +31,21 @@ public class PocService {
 
     // value กับ cacheNames คือ set config cache name เหมือนกัน
     // key คือ ค่า key ที่เก็บ
-    //
     @Cacheable( value = "test", key = "#request.key")
     public String testCache(PostCacheRequest request){
         return request.getData();
+    }
+
+    // HardCode Cache Key
+    @Cacheable( value = "test2", key = "'fix_key'")
+    public String testCacheWithFixKey(String data){
+        return data;
+    }
+
+    // unless หมายถึง จะไม่ cache ถ้า value ที่ return จาก method == hello
+    @Cacheable( value = "test3", key = "'cacheUnless'" , unless = "#result == 'hello'")
+    public String testCacheWithUnless(String data){
+        return data;
     }
 
     public String getCache(GetCacheRequest request){

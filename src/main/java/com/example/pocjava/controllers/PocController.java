@@ -28,6 +28,18 @@ public class PocController {
         return ResponseEntity.ok(this.pocService.testCache(request));
     }
 
+    @GetMapping("/poc/fixKeyCache/{data}")
+    public ResponseEntity<String> cacheFixKey(@PathVariable  String data){
+
+        return ResponseEntity.ok(this.pocService.testCacheWithFixKey(data));
+    }
+
+    @GetMapping("/poc/cacheUnless/{data}")
+    public ResponseEntity<String> cacheWithUnless(@PathVariable  String data){
+
+        return ResponseEntity.ok(this.pocService.testCacheWithUnless(data));
+    }
+
     @PostMapping("/poc/getCache")
     public ResponseEntity<String> getCache(@RequestBody GetCacheRequest request){
 
