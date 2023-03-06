@@ -16,7 +16,7 @@ public class PocCacheService {
     @Autowired
     private CacheManager cacheManager;
 
-    // value กับ cacheNames คือ set config cache name เหมือนกัน
+    // value กับ cacheNames (เหมือนกัน) คือ set config cache name
     // key คือ ค่า key ที่เก็บ
     @Cacheable( value = "test", key = "#request.key")
     public String testCache(PostCacheRequest request){
