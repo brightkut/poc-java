@@ -1,13 +1,11 @@
 package com.example.pocjava.controllers;
 
+import com.example.pocjava.entity.UserInfo;
 import com.example.pocjava.model.Product;
 import com.example.pocjava.services.PocSpringSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,14 +24,19 @@ public class PocSpringSecurityController {
 
     @GetMapping("/all")
     //กำหนด role ที่ใช้ endpoint
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasAuthority('Admin')")
     public List<Product> getAllTheProducts(){
         return service.getProducts();
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('Normal')")
+    @PreAuthorize("hasAuthority('Normal')")
     public Product getProduct(@PathVariable Integer id){
         return service.getProduct(id);
+    }
+
+    @PostMapping("/new")
+    public String addUser(@RequestBody UserInfo userInfo){
+        return service.addUser(userInfo);
     }
 }
